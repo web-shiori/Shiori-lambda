@@ -7,6 +7,7 @@
 - AWS Lambda
 - S3
 - Amazon Textract
+- CloudWatch
 - Serveless Framework
 - Golang
 
