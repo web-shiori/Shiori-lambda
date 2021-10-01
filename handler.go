@@ -7,7 +7,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
-	"io/ioutil"
 )
 
 func s3Handler(ctx context.Context, event events.S3Event) {
@@ -25,12 +24,6 @@ var textractSession *textract.Textract
 func main() {
 	//lambda.Start(s3Handler)
 
-	// TODO: S3のファイルを参照するようにする
-	file, err := ioutil.ReadFile("sample.png")
-	if err != nil {
-		panic(err)
-	}
-
 	// TODO: refactoring
 	textractSession = textract.New(session.Must(session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1"),
@@ -38,7 +31,10 @@ func main() {
 
 	resp, err := textractSession.DetectDocumentText(&textract.DetectDocumentTextInput{
 		Document: &textract.Document{
-			Bytes: file,
+			S3Object: &textract.S3Object{
+				Bucket:  aws.String("web-snapshot-s3-us-east-1"),
+				Name:    aws.String("sample.png"),
+			},
 		},
 	})
 	if err != nil {
