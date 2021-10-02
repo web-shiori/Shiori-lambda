@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -33,13 +35,13 @@ func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 	// S3のファイルをTextractにかける
 	textractSession = textract.New(session.Must(session.NewSession(&aws.Config{
 		// TODO: 環境変数から取得する
-		Region: aws.String("us-east-1"),
+		Region: aws.String(os.Getenv("textractRegionName")),
 	})))
 	resp, err := textractSession.DetectDocumentText(&textract.DetectDocumentTextInput{
 		Document: &textract.Document{
 			S3Object: &textract.S3Object{
-				Bucket:  aws.String(bucket),
-				Name:    aws.String(key),
+				Bucket: aws.String(bucket),
+				Name:   aws.String(key),
 			},
 		},
 	})
