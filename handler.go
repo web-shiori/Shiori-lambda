@@ -20,7 +20,7 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("pageNum: %d", pageNum)
+		fmt.Printf("pageNum: %d\n", pageNum)
 	}
 	fmt.Println("Lambda Finish")
 }
