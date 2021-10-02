@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/aws/aws-lambda-go/lambda"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
@@ -31,6 +31,7 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 	var textractSession *textract.Textract
 	var simplePageNumExtracter SimplePageNumExtracter
+	fmt.Println(bucket)
 
 	// S3のファイルをTextractにかける
 	textractSession = textract.New(session.Must(session.NewSession(&aws.Config{
@@ -46,18 +47,15 @@ func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 		},
 	})
 	if err != nil {
+		fmt.Println(err)
 		return 0, err
 	}
 
-	// Textractで検知した文字列をスライスにする
-	var detectWordSlice []string
-	for _, w := range resp.Blocks {
-		if *w.BlockType == "WORD" {
-			detectWordSlice = append(detectWordSlice, *w.Text)
-		}
-	}
+	fmt.Println(resp)
 
+	detectWordSlice, err := detectDocumentTextOutputToStringSlice(resp)
 	fmt.Println(detectWordSlice)
+
 	// PDFのページ数を抽出する
 	pageNum, err = simplePageNumExtracter.extractPageNum(detectWordSlice)
 	if err != nil {
@@ -67,6 +65,19 @@ func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 	return
 }
 
+// Textractで検知した文字列をスライスにする
+func detectDocumentTextOutputToStringSlice(textOutput *textract.DetectDocumentTextOutput) (detectWordSlice []string, err error) {
+	for _, w := range textOutput.Blocks {
+		if *w.BlockType == "WORD" {
+			detectWordSlice = append(detectWordSlice, *w.Text)
+		}
+	}
+	return
+}
+
 func main() {
 	lambda.Start(s3Handler)
+
+	// ローカル開発用
+	//detectPageNumber("web-snapshot-s3-us-east-1", "sample.png")
 }
