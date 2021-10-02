@@ -1,4 +1,4 @@
-package main
+package lambda_page_number_extract
 
 import (
 	"context"
