@@ -11,8 +11,6 @@ type PageNumExtracter interface {
 	extractPageNum([]string) (int, error)
 }
 
-
-
 /*
 	レスポンスの例
 	AIDataTechnologyMap_210520.po
@@ -70,7 +68,7 @@ type PageNumExtracter interface {
 /*
 	PDFのページ数を抽出する単純なロジック。
 	数字/数字 という条件に最初に合致する文字列を取得、最初の数字を現在見ているページ数とする
- */
+*/
 type SimplePageNumExtracter struct {
 }
 
