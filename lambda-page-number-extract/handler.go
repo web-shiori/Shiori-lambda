@@ -56,8 +56,8 @@ func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 			detectWordSlice = append(detectWordSlice, *w.Text)
 		}
 	}
-
 	fmt.Println(detectWordSlice)
+
 	// PDFのページ数を抽出する
 	pageNum, err = simplePageNumExtracter.extractPageNum(detectWordSlice)
 	if err != nil {

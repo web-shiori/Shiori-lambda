@@ -76,7 +76,6 @@ func (s SimplePageNumExtracter) extractPageNum(detectWordList []string) (pageNum
 	// 取得したワードのリストを一つの文字列にする
 	detectWord := strings.Join(detectWordList, "")
 
-	// 数字/数字 という条件に最初に合致する文字列を取得、最初の数字を現在見ているページ数とする
 	r := regexp.MustCompile(`(\d+)\/\d+`)
 	// FindStringSubmatchの戻り値は[最初の数字/数字 最初の数字]
 	submatch := r.FindStringSubmatch(detectWord)
@@ -89,7 +88,6 @@ func (s SimplePageNumExtracter) extractPageNum(detectWordList []string) (pageNum
 		fmt.Println("extracting page number was failed.")
 	}
 
-	// 取得したページ数をint型にキャストして返す
 	pageNum, err = strconv.Atoi(pageNumString)
 	return
 }
