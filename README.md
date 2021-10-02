@@ -13,8 +13,9 @@
 
 ## 開発手順
 ### ビルド
+## TODO: 修正
 ```shell
-% GOOS=linux go build
+% GOOS=linux go build -o lambda-page-number-extract
 ```
 ## デプロイ
 ```shell
