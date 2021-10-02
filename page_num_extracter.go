@@ -10,8 +10,7 @@ type PageNumExtracter interface {
 	extractPageNum([]string) (int, error)
 }
 
-type SimplePageNumExtracter struct {
-}
+
 
 /*
 	レスポンスの例
@@ -66,6 +65,13 @@ type SimplePageNumExtracter struct {
 	XT17/ADT
 	82
 */
+
+/*
+	PDFのページ数を抽出する単純なロジック。
+	数字/数字 という条件に最初に合致する文字列を取得、最初の数字を現在見ているページ数とする
+ */
+type SimplePageNumExtracter struct {
+}
 
 func (s SimplePageNumExtracter) extractPageNum(detectWordList []string) (pageNum int, err error) {
 	// 取得したワードのリストを一つの文字列にする
