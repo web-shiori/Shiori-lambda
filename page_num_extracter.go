@@ -79,12 +79,13 @@ func (s SimplePageNumExtracter) extractPageNum(detectWordList []string) (pageNum
 	detectWord := strings.Join(detectWordList, "")
 
 	// 数字/数字 という条件に最初に合致する文字列を取得、最初の数字を現在見ているページ数とする
-	r := regexp.MustCompile(`(\d)+\/\d+`)
+	r := regexp.MustCompile(`(\d+)\/\d+`)
 	// FindStringSubmatchの戻り値は[最初の数字/数字 最初の数字]
 	submatch := r.FindStringSubmatch(detectWord)
 	// 最初の数字(ページ数)のみを取り出す
 	pageNumString := "0"
-	if len(submatch) > 2 {
+	fmt.Println(submatch)
+	if len(submatch) >= 2 {
 		pageNumString = submatch[1]
 	} else {
 		fmt.Println("extracting page number was failed.")
