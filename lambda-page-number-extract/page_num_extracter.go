@@ -1,4 +1,4 @@
-package lambda_page_number_extract
+package main
 
 import (
 	"fmt"
