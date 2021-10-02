@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -82,7 +83,12 @@ func (s SimplePageNumExtracter) extractPageNum(detectWordList []string) (pageNum
 	// FindStringSubmatchの戻り値は[最初の数字/数字 最初の数字]
 	submatch := r.FindStringSubmatch(detectWord)
 	// 最初の数字(ページ数)のみを取り出す
-	pageNumString := submatch[1]
+	pageNumString := "0"
+	if len(submatch) > 2 {
+		pageNumString = submatch[1]
+	} else {
+		fmt.Println("extracting page number was failed.")
+	}
 
 	// 取得したページ数をint型にキャストして返す
 	pageNum, err = strconv.Atoi(pageNumString)

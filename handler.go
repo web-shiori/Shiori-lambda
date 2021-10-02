@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
@@ -55,6 +54,7 @@ func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 		}
 	}
 
+	fmt.Println(detectWordSlice)
 	// PDFのページ数を抽出する
 	pageNum, err = simplePageNumExtracter.extractPageNum(detectWordSlice)
 	if err != nil {
@@ -65,5 +65,6 @@ func detectPageNumber(bucket string, key string) (pageNum int, err error) {
 }
 
 func main() {
-	lambda.Start(s3Handler)
+	//lambda.Start(s3Handler)
+	detectPageNumber("web-snapshot-s3-us-east-1", "sample2.png")
 }
