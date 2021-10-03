@@ -19,7 +19,7 @@ type OCRClient interface {
 
 // PDFのページ数を取得する
 func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtracter, bucket string, key string) (pageNum int, err error) {
-	// S3のファイルをTextractにかける
+	// S3のファイルをOCRにかける
 	input := &textract.DetectDocumentTextInput{
 		Document: &textract.Document{
 			S3Object: &textract.S3Object{
