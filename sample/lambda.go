@@ -56,7 +56,7 @@ func lambdaHandler(ctx context.Context, event events.S3Event) {
 
 	// S3に書き込み
 	fmt.Println("S3に書き込み")
-	outputBucket := "test-bucketunkounko"
+	outputBucket := "" // 出力用バケット名
 	outputObjectKey := inputKey + time.Now().String() + ".txt"
 	uploader := s3manager.NewUploader(sess)
 	_, err = uploader.Upload(&s3manager.UploadInput{
