@@ -18,9 +18,9 @@ var extractPageNumTests = []extractPageNumTest{
 }
 
 func TestExtractPageNum(t *testing.T) {
-	var simplePageNumExtracter SimplePageNumExtracter
+	var simplePageNumExtractor SimplePageNumExtractor
 	for i, test := range extractPageNumTests {
-		actual, err := simplePageNumExtracter.extractPageNum(test.detectWordList)
+		actual, err := simplePageNumExtractor.extractPageNum(test.detectWordList)
 		if err != nil {
 			t.Errorf("#%d: error occured.\nMSG:\n\t%s", i, err)
 		}

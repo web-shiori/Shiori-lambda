@@ -18,7 +18,7 @@ type OCRClient interface {
 }
 
 // PDFのページ数を取得する
-func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtracter, bucket string, key string) (pageNum int, err error) {
+func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtractor, bucket string, key string) (pageNum int, err error) {
 	// S3のファイルをOCRにかける
 	input := &textract.DetectDocumentTextInput{
 		Document: &textract.Document{
@@ -68,8 +68,8 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 			Region: aws.String(region),
 		}))
 		textractClient := textract.New(textractSession)
-		simplePageNumExtracter := new(SimplePageNumExtracter)
-		pageNum, err := detectPageNumber(textractClient, simplePageNumExtracter, bucket, key)
+		simplePageNumExtractor := new(SimplePageNumExtractor)
+		pageNum, err := detectPageNumber(textractClient, simplePageNumExtractor, bucket, key)
 		if err != nil {
 			panic(err)
 		}
@@ -89,6 +89,6 @@ func main() {
 	//	Region: aws.String(region),
 	//}))
 	//textractClient := textract.New(textractSession)
-	//simplePageNumExtracter := new(SimplePageNumExtracter)
-	//detectPageNumber(textractClient, simplePageNumExtracter, bucket, key)
+	//simplePageNumExtractor := new(SimplePageNumExtractor)
+	//detectPageNumber(textractClient, simplePageNumExtractor, bucket, key)
 }
