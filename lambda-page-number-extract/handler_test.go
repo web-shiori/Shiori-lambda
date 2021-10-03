@@ -96,9 +96,9 @@ func TestDetectPageNumber(t *testing.T) {
 	if err != nil {
 		t.Errorf("error occured.\nMSG:\n\t%s", err)
 	}
-	simplePageNumExtracter := new(SimplePageNumExtracter)
+	simplePageNumExtractor := new(SimplePageNumExtractor)
 
-	actual, err := detectPageNumber(testTextractClient, simplePageNumExtracter, bucket, key)
+	actual, err := detectPageNumber(testTextractClient, simplePageNumExtractor, bucket, key)
 	if err != nil {
 		t.Errorf("error occured.\nMSG:\n\t%s", err)
 	}
