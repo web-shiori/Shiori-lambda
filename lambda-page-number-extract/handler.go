@@ -3,61 +3,42 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/aws/aws-lambda-go/lambda"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
 )
 
-func s3Handler(ctx context.Context, event events.S3Event) {
-	fmt.Println("Lambda Start")
-	for _, record := range event.Records {
-		bucket := record.S3.Bucket.Name
-		key := record.S3.Object.Key
-		fmt.Printf("bucket: %s, key: %s\n", bucket, key)
-		pageNum, err := detectPageNumber(bucket, key)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Printf("pageNum: %d\n", pageNum)
-	}
-	fmt.Println("Lambda Finish")
+type OCRClient interface {
+	DetectDocumentText(input *textract.DetectDocumentTextInput) (*textract.DetectDocumentTextOutput, error)
 }
 
 // PDFのページ数を取得する
-func detectPageNumber(bucket string, key string) (pageNum int, err error) {
-	var textractSession *textract.Textract
-	var simplePageNumExtracter SimplePageNumExtracter
-	fmt.Println(bucket)
-
+func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtracter, bucket string, key string) (pageNum int, err error) {
 	// S3のファイルをTextractにかける
-	textractSession = textract.New(session.Must(session.NewSession(&aws.Config{
-		// TODO: 環境変数から取得する
-		Region: aws.String(os.Getenv("textractRegionName")),
-	})))
-	resp, err := textractSession.DetectDocumentText(&textract.DetectDocumentTextInput{
+	input := &textract.DetectDocumentTextInput{
 		Document: &textract.Document{
 			S3Object: &textract.S3Object{
 				Bucket: aws.String(bucket),
 				Name:   aws.String(key),
 			},
 		},
-	})
+	}
+	resp, err := c.DetectDocumentText(input)
 	if err != nil {
 		fmt.Println(err)
 		return 0, err
 	}
 
-	fmt.Println(resp)
-
 	detectWordSlice, err := detectDocumentTextOutputToStringSlice(resp)
 	fmt.Println(detectWordSlice)
 
 	// PDFのページ数を抽出する
-	pageNum, err = simplePageNumExtracter.extractPageNum(detectWordSlice)
+	pageNum, err = pageNumExtractor.extractPageNum(detectWordSlice)
 	if err != nil {
 		return 0, err
 	}
@@ -75,9 +56,39 @@ func detectDocumentTextOutputToStringSlice(textOutput *textract.DetectDocumentTe
 	return
 }
 
+func s3Handler(ctx context.Context, event events.S3Event) {
+	fmt.Println("Lambda Start")
+	for _, record := range event.Records {
+		bucket := record.S3.Bucket.Name
+		key := record.S3.Object.Key
+		fmt.Printf("bucket: %s, key: %s\n", bucket, key)
+
+		region := os.Getenv("textractRegionName")
+		textractSession := session.Must(session.NewSession(&aws.Config{
+			Region: aws.String(region),
+		}))
+		textractClient := textract.New(textractSession)
+		simplePageNumExtracter := new(SimplePageNumExtracter)
+		pageNum, err := detectPageNumber(textractClient, simplePageNumExtracter, bucket, key)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("pageNum: %d\n", pageNum)
+	}
+	fmt.Println("Lambda Finish")
+}
+
 func main() {
 	lambda.Start(s3Handler)
 
-	// ローカル開発用
-	//detectPageNumber("web-snapshot-s3-us-east-1", "sample.png")
+	// NOTE: ローカル開発用
+	//bucket := "web-snapshot-s3-us-east-1"
+	//key := "sample.png"
+	//region := os.Getenv("textractRegionName")
+	//textractSession := session.Must(session.NewSession(&aws.Config{
+	//	Region: aws.String(region),
+	//}))
+	//textractClient := textract.New(textractSession)
+	//simplePageNumExtracter := new(SimplePageNumExtracter)
+	//detectPageNumber(textractClient, simplePageNumExtracter, bucket, key)
 }
