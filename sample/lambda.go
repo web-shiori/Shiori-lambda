@@ -47,16 +47,17 @@ func lambdaHandler(ctx context.Context, event events.S3Event) {
 	fmt.Println("レスポンスからテキストデータを抽出")
 	var output string
 	for _, w := range resp.Blocks {
-		if *w.BlockType == "WORD" {
+		if *w.BlockType == "LINE" {
 			output += *w.Text
 			output += "\n"
 		}
 	}
+	fmt.Println(output)
 
 	// S3に書き込み
 	fmt.Println("S3に書き込み")
 	outputBucket := "test-bucketunkounko"
-	outputObjectKey := inputKey + time.Now().String()
+	outputObjectKey := inputKey + time.Now().String() + ".txt"
 	uploader := s3manager.NewUploader(sess)
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(outputBucket),
