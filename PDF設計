@@ -1,9 +1,24 @@
-<mxfile host="app.diagrams.net" modified="2021-12-08T17:13:40.387Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36" etag="2DZ6i1p66Pgh-J36DWBa" version="15.9.1" type="github">
+<mxfile host="app.diagrams.net" modified="2021-12-08T17:15:41.534Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36" etag="QONRNcOKbqRx0fq0-mpX" version="15.9.1" type="github">
   <diagram id="bQeo22ImAQy_NAQKVYuj" name="Page-1">
     <mxGraphModel dx="1426" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="GlfEzI738zvBs-9otMOe-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#696969;strokeWidth=2;" edge="1" parent="1" source="GlfEzI738zvBs-9otMOe-1" target="GlfEzI738zvBs-9otMOe-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GlfEzI738zvBs-9otMOe-1" value="PDFを閲覧している画面をキャプチャ" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GlfEzI738zvBs-9otMOe-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#696969;strokeWidth=2;" edge="1" parent="1" source="GlfEzI738zvBs-9otMOe-2" target="GlfEzI738zvBs-9otMOe-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GlfEzI738zvBs-9otMOe-2" value="OCRで画面キャプチャ&lt;br&gt;から文字列を取得" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="390" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GlfEzI738zvBs-9otMOe-3" value="取得した文字列から&lt;br&gt;保存時のPDFの&lt;br&gt;ページ数を抽出" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
