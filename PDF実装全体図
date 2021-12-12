@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-12-12T15:17:32.910Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36" etag="zTFaMlNYmwnBLWJzsg_d" version="15.9.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-12-12T15:18:14.464Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36" etag="WLqfTEUSQaC5JkUuDa-X" version="15.9.4" type="github">
   <diagram id="MoKySInN7YWl6M23yL6k" name="Page-1">
-    <mxGraphModel dx="1240" dy="641" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1678" dy="867" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -53,7 +53,7 @@
           <mxGeometry x="500" y="572" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="xCJQrbA0aJDH3XtkSsSw-14" value="AWS Cloud" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
-          <mxGeometry x="1300" y="50" width="380" height="320" as="geometry" />
+          <mxGeometry x="334" y="410" width="466" height="320" as="geometry" />
         </mxCell>
         <mxCell id="xCJQrbA0aJDH3XtkSsSw-16" value="Web Browser" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#434445;aspect=fixed;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.vvd.web_browser;" vertex="1" parent="1">
           <mxGeometry x="340" y="830" width="126.76" height="90" as="geometry" />
