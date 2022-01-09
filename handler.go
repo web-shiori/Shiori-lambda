@@ -16,12 +16,12 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 	s := s3Service{record: r}
 
 	// PDFのページ数を取得する.
-	pageNum, err := extractPDFPageNum(r)
+	pageNum, err := extractPDFPageNum(&s)
 	if err != nil {
 		panic(err)
 	}
 
-	//// ページ数をPUTリクエストする.
+	// ページ数をPUTリクエストする.
 	contentID, err := s.getContentID()
 	if err != nil {
 		panic(err)

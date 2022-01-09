@@ -27,8 +27,10 @@ var _ S3Service = (*s3Service)(nil)
 
 // S3からスクリーンショットを取得
 func (s *s3Service) getTextractS3Object() *textract.S3Object {
-	panic("implement me")
-	return nil
+	return &textract.S3Object{
+		Bucket: &s.record.S3.Bucket.Name,
+		Name:   &s.record.S3.Object.Key,
+	}
 }
 
 // S3からスクリーンショットを削除

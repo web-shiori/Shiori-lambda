@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
@@ -15,14 +14,11 @@ type OCRClient interface {
 }
 
 // PDFのページ数を取得する
-func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtractor, bucket string, key string) (pageNum int, err error) {
+func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtractor, s3Object *textract.S3Object) (pageNum int, err error) {
 	// S3のファイルをOCRにかける
 	input := &textract.DetectDocumentTextInput{
 		Document: &textract.Document{
-			S3Object: &textract.S3Object{
-				Bucket: aws.String(bucket),
-				Name:   aws.String(key),
-			},
+			S3Object: s3Object,
 		},
 	}
 	resp, err := c.DetectDocumentText(input)
@@ -32,6 +28,9 @@ func detectPageNumber(c OCRClient, pageNumExtractor PageNumExtractor, bucket str
 	}
 
 	detectWordSlice, err := detectDocumentTextOutputToStringSlice(resp)
+	if err != nil {
+		return 0, err
+	}
 	fmt.Println(detectWordSlice)
 
 	// PDFのページ数を抽出する
@@ -54,11 +53,10 @@ func detectDocumentTextOutputToStringSlice(textOutput *textract.DetectDocumentTe
 }
 
 // PDFのページ数を取得
-func extractPDFPageNum(record events.S3EventRecord) (int, error) {
+func extractPDFPageNum(service *s3Service) (int, error) {
 	fmt.Println("------PDFのページ数を取得------")
-	bucket := record.S3.Bucket.Name
-	key := record.S3.Object.Key
-	fmt.Printf("bucket: %s, key: %s\n", bucket, key)
+	fmt.Printf("bucket: %s", service.record.S3.Bucket.Name)
+	fmt.Printf("key: %s", service.record.S3.Object.Key)
 
 	region := os.Getenv("textractRegionName")
 	textractSession := session.Must(session.NewSession(&aws.Config{
@@ -66,7 +64,8 @@ func extractPDFPageNum(record events.S3EventRecord) (int, error) {
 	}))
 	textractClient := textract.New(textractSession)
 	simplePageNumExtractor := new(SimplePageNumExtractor)
-	pageNum, err := detectPageNumber(textractClient, simplePageNumExtractor, bucket, key)
+	s3Object := service.getTextractS3Object()
+	pageNum, err := detectPageNumber(textractClient, simplePageNumExtractor, s3Object)
 	if err != nil {
 		return 0, err
 	}

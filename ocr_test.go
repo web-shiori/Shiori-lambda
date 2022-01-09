@@ -1,11 +1,12 @@
 package main
 
 import (
+	"reflect"
+	"testing"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
-	"reflect"
-	"testing"
 )
 
 // detectPageNumberのテスト
@@ -18,19 +19,19 @@ func (t *TestTextract) DetectDocumentText(input *textract.DetectDocumentTextInpu
 	resp := &textract.DetectDocumentTextOutput{
 		Blocks: []*textract.Block{
 			{
-				BlockType:       aws.String("WORD"),
-				Text:            aws.String("6"),
-				TextType:        aws.String("PRINTED"),
+				BlockType: aws.String("WORD"),
+				Text:      aws.String("6"),
+				TextType:  aws.String("PRINTED"),
 			},
 			{
-				BlockType:       aws.String("WORD"),
-				Text:            aws.String("/"),
-				TextType:        aws.String("PRINTED"),
+				BlockType: aws.String("WORD"),
+				Text:      aws.String("/"),
+				TextType:  aws.String("PRINTED"),
 			},
 			{
-				BlockType:       aws.String("WORD"),
-				Text:            aws.String("49"),
-				TextType:        aws.String("PRINTED"),
+				BlockType: aws.String("WORD"),
+				Text:      aws.String("49"),
+				TextType:  aws.String("PRINTED"),
 			},
 		},
 		DetectDocumentTextModelVersion: aws.String("1.0"),
@@ -63,7 +64,11 @@ func TestDetectPageNumber(t *testing.T) {
 	}
 	simplePageNumExtractor := new(SimplePageNumExtractor)
 
-	actual, err := detectPageNumber(testTextractClient, simplePageNumExtractor, bucket, key)
+	s3Obj := &textract.S3Object{
+		Bucket: &bucket,
+		Name:   &key,
+	}
+	actual, err := detectPageNumber(testTextractClient, simplePageNumExtractor, s3Obj)
 	if err != nil {
 		t.Errorf("error occured.\nMSG:\n\t%s", err)
 	}
@@ -78,9 +83,9 @@ func TestDetectDocumentTextOutputToStringSlice(t *testing.T) {
 	detectDocumentTextOutput := textract.DetectDocumentTextOutput{
 		Blocks: []*textract.Block{
 			{
-				BlockType:       aws.String("WORD"),
-				Text:            aws.String("word"),
-				TextType:        aws.String("PRINTED"),
+				BlockType: aws.String("WORD"),
+				Text:      aws.String("word"),
+				TextType:  aws.String("PRINTED"),
 			},
 		},
 		DetectDocumentTextModelVersion: aws.String("1.0"),
