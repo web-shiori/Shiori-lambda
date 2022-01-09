@@ -13,21 +13,28 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 		panic(fmt.Errorf("Error length of event.Records is not 1. "))
 	}
 	r := event.Records[0]
+	s := s3Service{record: r}
 
 	// PDFのページ数を取得する.
 	//extractPDFPageNum(r)
 
-	// ページ数をPUTリクエストする.
-	contentID, err := getContentID(r.S3.Object)
-	if err != nil {
-		panic(err)
-	}
-	err = putPDFPageNum(contentID, 10)
-	if err != nil {
-		panic(err)
-	}
+	//// ページ数をPUTリクエストする.
+	//contentID, err := getContentID(r.S3.Object)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = putPDFPageNum(contentID, 10)
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	// PDFのスクリーンショットを削除する.
+	fmt.Println("------Delete object------")
+	err := s.deleteObject()
+	if err != nil {
+		fmt.Println("delete object error")
+		panic(err)
+	}
 }
 
 func main() {
