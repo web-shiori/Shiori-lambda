@@ -7,20 +7,13 @@
 - AWS Lambda
 - S3
 - Amazon Textract
-- CloudWatch
-- Serveless Framework
+- CloudWatch 
 - Golang
 
 ## 開発手順
-### ビルド
-## TODO: 修正
+1. ビルド
 ```shell
-% GOOS=linux go build -o lambda-page-number-extract
-```
-## デプロイ
-```shell
-# zip作成
-% zip lambda.zip Shiori-lambda
+make build
 ```
 
-- zipアップロード
+2. zipアップロード
