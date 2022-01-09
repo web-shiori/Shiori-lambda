@@ -16,3 +16,8 @@ lint:
 	make install-golangci-lint
 	go clean ./... && golangci-lint cache clean
 	golangci-lint run
+
+.PHONY: build
+build:
+	GOOS=linux go build -o shiori-lambda
+	zip shiori-lambda.zip shiori-lambda
