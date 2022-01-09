@@ -20,4 +20,8 @@ lint:
 .PHONY: build
 build:
 	GOOS=linux go build -o shiori-lambda
+
+.PHONY: zip
+zip:
+	make build
 	zip shiori-lambda.zip shiori-lambda
