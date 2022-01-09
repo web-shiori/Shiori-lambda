@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/textract"
-	"os"
 )
 
 type OCRClient interface {
@@ -53,7 +54,7 @@ func detectDocumentTextOutputToStringSlice(textOutput *textract.DetectDocumentTe
 }
 
 // PDFのページ数を取得
-func extractPDFPageNum(record events.S3EventRecord) {
+func extractPDFPageNum(record events.S3EventRecord) (int, error) {
 	fmt.Println("------PDFのページ数を取得------")
 	bucket := record.S3.Bucket.Name
 	key := record.S3.Object.Key
@@ -67,7 +68,8 @@ func extractPDFPageNum(record events.S3EventRecord) {
 	simplePageNumExtractor := new(SimplePageNumExtractor)
 	pageNum, err := detectPageNumber(textractClient, simplePageNumExtractor, bucket, key)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 	fmt.Printf("ページ数: %d\n", pageNum)
+	return pageNum, nil
 }
