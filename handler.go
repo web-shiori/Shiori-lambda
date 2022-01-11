@@ -26,6 +26,7 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Printf("------contentID: %s\n", contentID)
 	err = putPDFPageNum(contentID, pageNum)
 	if err != nil {
 		panic(err)

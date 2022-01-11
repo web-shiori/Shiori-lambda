@@ -55,8 +55,8 @@ func detectDocumentTextOutputToStringSlice(textOutput *textract.DetectDocumentTe
 // PDFのページ数を取得
 func extractPDFPageNum(service *s3Service) (int, error) {
 	fmt.Println("------PDFのページ数を取得------")
-	fmt.Printf("bucket: %s", service.record.S3.Bucket.Name)
-	fmt.Printf("key: %s", service.record.S3.Object.Key)
+	fmt.Printf("bucket: %s\n", service.record.S3.Bucket.Name)
+	fmt.Printf("key: %s\n", service.record.S3.Object.Key)
 
 	region := os.Getenv("textractRegionName")
 	textractSession := session.Must(session.NewSession(&aws.Config{
