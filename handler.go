@@ -32,12 +32,13 @@ func s3Handler(ctx context.Context, event events.S3Event) {
 	}
 
 	// PDFのスクリーンショットを削除する.
-	fmt.Println("------Delete object------")
-	err = s.deleteObject()
-	if err != nil {
-		fmt.Println("delete object error")
-		panic(err)
-	}
+	fmt.Println("一旦削除はパス")
+	//fmt.Println("------Delete object------")
+	//err = s.deleteObject()
+	//if err != nil {
+	//	fmt.Println("delete object error")
+	//	panic(err)
+	//}
 }
 
 func main() {
