@@ -1,4 +1,4 @@
-module github.com/MasatoraAtarashi/Shiori-lambda
+module github.com/MasatoraAtarashi/Shiori-lambda/extract-pdf-page-num
 
 go 1.16
 

@@ -45,7 +45,7 @@ func (s *s3Service) deleteObject() error {
 }
 
 // S3に保存されたオブジェクトからコンテンツIDを取得する。
-// S3では"/pdf/コンテンツID/〇〇.png"というフォルダ構成になっている。
+// S3では"/inverted_pdf/コンテンツID/〇〇.png"というフォルダ構成になっている。
 // ↑からコンテンツIDを取得する
 func (s *s3Service) getContentID() (string, error) {
 	ss := strings.Split(s.record.S3.Object.Key, "/")
