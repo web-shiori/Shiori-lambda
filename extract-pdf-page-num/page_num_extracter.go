@@ -20,9 +20,11 @@ type SimplePageNumExtractor struct {
 
 func (s SimplePageNumExtractor) extractPageNum(detectWordList []string) (pageNum int, err error) {
 	// 取得したワードのリストを一つの文字列にする
-	detectWord := strings.Join(detectWordList, "")
+	detectWord := strings.Join(detectWordList, " ")
 
-	r := regexp.MustCompile(`(\d+)\/\d+`)
+	// `3/10` or `3 / 10` or `3/ 10` or `3 /10`にマッチする
+	regexpStr := `(\d+)( |)\/( |)\d+`
+	r := regexp.MustCompile(regexpStr)
 	// FindStringSubmatchの戻り値は[最初の数字/数字 最初の数字]
 	submatch := r.FindStringSubmatch(detectWord)
 	// 最初の数字(ページ数)のみを取り出す
