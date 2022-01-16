@@ -1,8 +1,15 @@
 # Shiori-lambda
+Web Snapshot(旧Web Shiori)のlambda関数
+
 ## 概要
-- Web Snapshot(旧Web Shiori)のlambda処理
-- S3に保存した画面のスクリーンショット(PDFをChromeで閲覧している状態を想定)から
-「PDFの何ページ目を閲覧中か」という情報をOCRを利用して抽出し、contentテーブルの「pdf_page_num」カラムに保存する
+- ./extract-pdf-page-num
+- ./invert-image-color
+
+### extract-pdf-page-num
+保存されたPDFのスクリーンショットから現在のページ数を抽出し、データベースにPUTリクエストを送る。
+
+### invert-image-color
+S3に保存された画像の色を反転させる処理。
 
 #### 構成図
 ![構成図](./docs/PDF実装全体図.drawio.svg)
@@ -15,9 +22,9 @@
 - Golang
 
 ## 開発手順
-1. ビルド
+1. zip作成
 ```shell
-make build
+make zip
 ```
 
 2. zipアップロード
